@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expay - کارتەکانی پڕکردنەوی مۆبایل</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+        }
+        
+        :root {
+            --primary-light: #667eea;
+            --primary-dark: #764ba2;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --white: #FFFFFF;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --border-color: #E0E0E0;
+            --background: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        /* پەڕەی کارتەکانی پڕکردنەوە */
+        #mobile-cards-page {
+            display: none;
+            opacity: 0;
+        }
+        
+        .active-page {
+            display: block !important;
+            opacity: 1 !important;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* بانگراوندی مۆری لەسەرەوە */
+        .mobile-cards-header {
+            background: var(--primary-gradient);
+            height: 75px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+        
+        /* لۆگۆ لای چەپ */
+        .mobile-cards-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .mobile-cards-logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--white);
+        }
+        
+        .mobile-cards-ex {
+            color: var(--white);
+        }
+        
+        .mobile-cards-pay {
+            color: var(--white);
+        }
+        
+        /* نیشانەی گەڕانەوە لای چەپ */
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* ناوەڕاستی پەڕە */
+        .mobile-cards-container {
+            padding: 100px 20px 30px;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: var(--background);
+        }
+        
+        /* سەرناو */
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: right;
+            color: var(--text-dark);
+        }
+        
+        /* کارتەکان */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card-item {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            box-shadow: var(--shadow-light);
+        }
+        
+        .card-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .card-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background);
+            border-radius: 12px;
+            padding: 10px;
+        }
+        
+        .card-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .card-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        .card-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+        
+        /* ئەنیمەیشن */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        /* وەڵامدانەوەیی */
+        @media (max-width: 480px) {
+            .mobile-cards-header {
+                height: 70px;
+                padding: 0 15px;
+            }
+            
+            .mobile-cards-container {
+                padding: 90px 15px 20px;
+            }
+            
+            .cards-grid {
+                gap: 15px;
+            }
+            
+            .page-title {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            
+            .card-item {
+                min-height: 180px;
+                padding: 15px;
+            }
+            
+            .card-logo {
+                width: 90px;
+                height: 90px;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .mobile-cards-logo-text {
+                font-size: 1.6rem;
+            }
+            
+            .page-title {
+                font-size: 1.4rem;
+            }
+            
+            .card-name {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- پەڕەی کارتەکانی پڕکردنەوی مۆبایل -->
+    <div id="mobile-cards-page">
+        <!-- سەرەوە: بانگراوندی مۆری -->
+        <div class="mobile-cards-header">
+            <!-- نیشانەی گەڕانەوە لای چەپ -->
+            <button class="back-button" id="backFromMobileCards">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            
+            <!-- لۆگۆ لای راست -->
+            <div class="mobile-cards-logo">
+                <div class="mobile-cards-logo-text">
+                    <span class="mobile-cards-ex">ex</span><span class="mobile-cards-pay">pay</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ناوەڕاستی پەڕە -->
+        <div class="mobile-cards-container">
+            <!-- سەرناو -->
+            <h1 class="page-title">کارتەکانی پڕکردنەوی مۆبایل</h1>
+            
+            <!-- دوو کارتەکە -->
+            <div class="cards-grid">
+                <!-- کارتی Korek -->
+                <div class="card-item" id="korekCard">
+                    <div class="card-logo">
+                        <!-- وێنەی Korek -->
+                        <img src="https://i.ibb.co/nNwhrLsk/FB-IMG-1770492106260.jpg" alt="Korek" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\"font-size: 1rem; color: #666; padding: 20px;\">Korek</div>';">
+                    </div>
+                    <div class="card-name">Korek</div>
+                    <div class="card-description">پڕکردنەوەی کارتی کۆرەک</div>
+                </div>
+                
+                <!-- کارتی AsiaCell -->
+                <div class="card-item" id="asiacellCard">
+                    <div class="card-logo">
+                        <!-- وێنەی AsiaCell -->
+                        <img src="https://i.ibb.co/tT88nFCB/png-clipart-logo-brand-font-design-text-logo-thumbnail.png" alt="AsiaCell" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div style=\"font-size: 1rem; color: #666; padding: 20px;\">AsiaCell</div>';">
+                    </div>
+                    <div class="card-name">AsiaCell</div>
+                    <div class="card-description">پڕکردنەوەی کارتی ئاسیاسێڵ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // فەنکشن بۆ گواستنەوەی نێوان پەڕەکان
+        function navigateTo(pageId) {
+            console.log('گواستنەوە بۆ پەڕە:', pageId);
+            
+            const currentPage = document.querySelector('.active-page');
+            if (currentPage) {
+                currentPage.classList.remove('active-page');
+            }
+            
+            const targetPage = document.getElementById(pageId);
+            targetPage.classList.add('active-page');
+            
+            console.log('پەڕەی', pageId, 'پیشان درا');
+        }
+        
+        // کاتێک کلیک لە نیشانەی گەڕانەوە دەکرێت
+        document.getElementById('backFromMobileCards').addEventListener('click', function() {
+            alert('گەڕانەوە بۆ پەڕەی پرۆفایل');
+            // لێرە پەڕەی پرۆفایل دەکەینەوە
+            // navigateTo('profile-page');
+        });
+        
+        // کاتێک کلیک لە کارتی Korek دەکرێت
+        document.getElementById('korekCard').addEventListener('click', function() {
+            alert('کارتی کۆرەک هەڵبژێردرا');
+            // لێرە پەڕەی پڕکردنەوەی کارتی کۆرەک دەکەینەوە
+        });
+        
+        // کاتێک کلیک لە کارتی AsiaCell دەکرێت
+        document.getElementById('asiacellCard').addEventListener('click', function() {
+            alert('کارتی ئاسیاسێڵ هەڵبژێردرا');
+            // لێرە پەڕەی پڕکردنەوەی کارتی ئاسیاسێڵ دەکەینەوە
+        });
+        
+        // بۆ ئەوەی پەڕەکە لە سەرەتاوە پیشان بدرێت (بۆ پشکنین)
+        window.addEventListener('load', function() {
+            // لێرە پەڕەکە پیشان دەدرێت بۆ پشکنین
+            navigateTo('mobile-cards-page');
+        });
+    </script>
+</body>
+</html>
